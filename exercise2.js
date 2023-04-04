@@ -1,12 +1,12 @@
-const btn = document.getElementById('btn');
+const btn = document.getElementById('button');
 
-let index = 0;
+let index0 = 0;
+let index1 = 1;
 
-const colors = ['salmon', 'green', 'blue', 'purple'];
+const colors = ['red', 'green', 'blue', 'purple'];
 
-btn.addEventListener('click', function onClick() {
-  btn.style.backgroundColor = colors[index];
-  btn.style.color = 'white';
+button.addEventListener('click', function buttonColor() {
+  button.style.backgroundColor = colors[index];
 
-  index = index >= colors.length - 1 ? 0 : index + 1;
+  index = index + 1
 });
