@@ -1,9 +1,12 @@
 const btn = document.getElementById('btn');
 
-btn.addEventListener('click', function onClick(event) {
-  // 👇️ change background color
-  document.body.style.backgroundColor = 'salmon';
+let index = 0;
 
-  // 👇️ optionally change text color
-  // document.body.style.color = 'white';
+const colors = ['salmon', 'green', 'blue', 'purple'];
+
+btn.addEventListener('click', function onClick() {
+  btn.style.backgroundColor = colors[index];
+  btn.style.color = 'white';
+
+  index = index >= colors.length - 1 ? 0 : index + 1;
 });
