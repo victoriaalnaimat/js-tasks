@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2> Ajax</h2>
+    <form>
+        <label for="myInput"></label>
+            <input type="text" id="myInput">
+        </form>
+        <div id="displayText"></div>
+    <script>
+        const input = document.getElementById("myInput");
+        const displayText = document.getElementById("displayText");
+
+        input.addEventListener("input", function() {
+            let myRequest = new XMLHttpRequest();
+            myRequest.onload = function(){
+                displayText.innerHTML = this.responseText;
+            }
+            myRequest.open("GET", input.value);
+            myRequest.send();
+        });
+    </script>
+</body>
+</html>
