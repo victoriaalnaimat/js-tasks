@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        img {
+            width: 200px;
+            height: 100px;
+        }
+
+        .container2 {
+            display: flex;
+            overflow: hidden;
+        }
+
+        .cardContainer {
+            margin-left: 10%;
+            width: 20%;
+            height: 220px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="container" class="container" name="container">
+    </div>
+
+
+    <script>
+        // div container
+        const container = document.getElementById("container");
+
+        // the div of cards
+        const container2 = document.createElement("div");
+        container.appendChild(container2);
+        container2.setAttribute("class", "container2");
+        container2.style.width = "80%";
+        container2.style.height = "340px";
+        container2.style.backgroundColor = "";
+        container2.style.margin = "auto";
+
+        // div container3
+        const container3 = document.createElement("div");
+        container3.style.width = "80%";
+        container3.style.height = "630px";
+        container3.style.backgroundColor = "red";
+        container3.style.marginLeft = "10%";
+        container.appendChild(container3);
+
+        // div container4
+        const container4 = document.createElement("div");
+        container4.style.width = "20%";
+        container4.style.height = "200px";
+        container4.style.marginLeft = "40%";
+        container4.style.overflow = "hidden";
+        container4.style.backgroundColor = "blue";
+        container.appendChild(container4);
+        // total prise
+        const totalPrise = document.createElement("p");
+        totalPrise.textContent = "Total";
+        totalPrise.style.fontSize = "40px";
+        totalPrise.style.textAlign = "center";
+        container4.appendChild(totalPrise);
+        const totalOfPrise = document.createElement("p");
+        totalOfPrise.textContent = container4.appendChild(totalOfPrise);
+
+        // array of object
+        const arrayOfCard = [
+            {
+                name: "iphone13",
+                prise: 900,
+            },
+            {
+                name: "headPhone",
+                prise: 150,
+            },
+            {
+                name: "keyboard",
+                prise: 60,
+            },
+        ];
+
+        let sales = [];
+
+        // for loop
+
+        for (let product = 0; product < arrayOfCard.length; product++) {
+            //every round this information will return
+            const cardContainer = document.createElement("div");
+            cardContainer.style.backgroundColor = "gray";
+            cardContainer.setAttribute("class", "cardContainer");
+            const cardImg = document.createElement("img");
+            const cardName = document.createElement("p");
+            const cardPrise = document.createElement("p");
+            const cardBtn = document.createElement("button");
+
+            //append information
+            container2.appendChild(cardContainer);
+
+            cardContainer.appendChild(cardImg);
+            cardContainer.appendChild(cardName);
+            cardContainer.appendChild(cardPrise);
+            cardContainer.appendChild(cardBtn);
+            // information for cards
+            cardImg.setAttribute("src", `/images/${arrayOfCard[product].name}.jpg`);
+            cardName.textContent = arrayOfCard[product].name;
+            cardPrise.textContent = arrayOfCard[product].prise;
+            cardBtn.textContent = "add to cart";
+            cardBtn.style.backgroundColor = "blue";
+
+            cardBtn.addEventListener("click", () => {
+                const saveInformationInLocalStorage = JSON.parse(
+                    localStorage.getItem("theSales")
+                );
+
+                if (saveInformationInLocalStorage) {
+                    sales = saveInformationInLocalStorage;
+                }
+                const newObject = {
+                    name: arrayOfCard[product].name,
+                    prise: arrayOfCard[product].name,
+                    amount: 1,
+                    totalAmount: this.name * this.prise
+                }
+                sales.push(arrayOfCard[product]);
+                localStorage.setItem("theSales", JSON.stringify(sales));
+                cardBtn.setAttribute("disabled", "true");
+                renderCart();
+            });
+        }
+        // the cart
+        const renderCart = () => {
+            const saveProducts = JSON.parse(localStorage.getItem("theSales"));
+            container3.innerHTML = "";
+
+            for (let print = 0; print < saveProducts.length; print++) {
+                const cartDiv = document.createElement("div");
+                cartDiv.style.width = "100%";
+                cartDiv.style.height = "200px";
+                cartDiv.style.backgroundColor = "blue";
+                cartDiv.style.display = "flex";
+                cartDiv.style.marginTop = "1%";
+                container3.appendChild(cartDiv);
+                //img 2
+                const cartImg = document.createElement("img");
+                cartImg.setAttribute("src", `/images/${saveProducts[print].name}.jpg`);
+                cartImg.style.marginLeft = "1%";
+                cartImg.style.height = "200px";
+                cartImg.style.width = "20%";
+                cartDiv.appendChild(cartImg);
+
+                //div counter
+                const counterDiv = document.createElement("div");
+                counterDiv.style.width = "10%";
+                counterDiv.style.height = "50px";
+                counterDiv.style.marginLeft = "25%";
+                counterDiv.style.marginTop = "3%";
+                counterDiv.style.backgroundColor = "gray";
+                counterDiv.style.display = "flex";
+                cartDiv.appendChild(counterDiv);
+
+                //mainous button
+                const mainous = document.createElement("button");
+                mainous.textContent = "-";
+                mainous.style.width = "35px";
+                mainous.style.height = "49px";
+                let count = 1;
+                mainous.addEventListener("click", () => {
+                    if (count > 1) {
+                        count--;
+                        counterEl.innerText = count;
+                        priseCart.textContent = `${saveProducts[print].prise * count}`;
+                    }
+                });
+                counterDiv.appendChild(mainous);
+                const counterEl = document.createElement("p");
+                counterEl.innerText = count;
+                counterDiv.appendChild(counterEl);
+                //span
+
+                // const span = document.createElement("span")
+                // span.textContent="1"
+                // span.style.width="3%"
+                // span.style.backgroundColor="red"
+                // counterDiv.appendChild(span)
+
+                //mainous button
+                const plus = document.createElement("button");
+                plus.textContent = "+";
+                plus.style.width = "35px";
+                plus.style.height = "49px";
+                plus.addEventListener("click", () => {
+                    count++;
+                    counterEl.innerText = count;
+                    priseCart.textContent = `${saveProducts[print].prise * count}`;
+                });
+                counterDiv.appendChild(plus);
+
+                // prise cart
+                let priseCart = document.createElement("p");
+                priseCart.textContent = `${saveProducts[print].prise * count}`;
+
+                priseCart.style.fontSize = "40px";
+                priseCart.style.marginLeft = "20%";
+                cartDiv.appendChild(priseCart);
+
+                //btn cart
+                const btnCart = document.createElement("button");
+                btnCart.style.width = "3%";
+                btnCart.style.height = "48px";
+                btnCart.style.marginLeft = "19%";
+                //remove
+                const ImgBtnCart = document.createElement("img");
+                ImgBtnCart.setAttribute(
+                    "src",
+                    "data:image/png;base64,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"
+                );
+                ImgBtnCart.style.width = "110%";
+                ImgBtnCart.style.height = "44px";
+                btnCart.appendChild(ImgBtnCart);
+                cartDiv.appendChild(btnCart);
+                btnCart.addEventListener("click", () => {
+                    cartDiv.remove();
+                    console.log(saveProducts[print]);
+                    let filteredProducts = [];
+                    for (let product = 0; product < saveProducts.length; product++) {
+                        if (saveProducts[product].name !== saveProducts[product].name) {
+                            filteredProducts.push(saveProducts[product])
+                        }
+                    }
+                });
+            }
+        };
+    </script>
+</body>
+
+</html>
